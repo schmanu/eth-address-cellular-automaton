@@ -8,16 +8,11 @@ interface CellularAddressProps {
 }
 
 const CellularAddress = (props: CellularAddressProps) => {
-
     let {address, scale, rounded} = props;
-
     const definedScale = scale ? scale : 2;
     address = address.replace("0x", "");
-    
-    console.log(address.length);
-
     if (address.length !== 40) {
-        throw new Error("Address is invalid!");
+        return (<div>INVALID ADDRESS</div>);
     }
     if (typeof rounded === "undefined") {
         rounded = false;
@@ -51,9 +46,6 @@ const CellularAddress = (props: CellularAddressProps) => {
         height: definedScale * 16,
         overflow: "hidden"}}>
         <svg width={`${definedScale * 16}px`} height={`${definedScale * 16}px`}>
-            <pattern id={"fillPattern"}>
-
-            </pattern>
             {rows.map((row, idy) => row.map(
                 (number, idx) => <rect x={idx * definedScale} y={idy * definedScale} fill={number === 0 ? `#${fillColor.toHex()}` : `#${emptyColor.toHex()}`} 
                 strokeWidth={0}
@@ -64,8 +56,6 @@ const CellularAddress = (props: CellularAddressProps) => {
         </svg>
     </div>);
 }
-
-
 
 const computeRow = (previousRow: number[], ruleSet: number[]) => {
     const row : number[] = new Array<number>(32);
